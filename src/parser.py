@@ -44,11 +44,27 @@ def export_to_json():
     with open(os.path.join(BASE_DIR, 'output.json'), 'w') as f:
         f.write(js)
 
+def get_users_followings():
+    with open(os.path.join(BASE_DIR, 'data', 'twitter_combined.txt'), 'r') as f:
+        lines = f.read().split('\n')
+
+        for line in filter(len, lines):
+
+            user, followings = line.split(' ')
+
+            if user in USERS.keys():
+                if 'followings' in USERS[user].keys():
+                    USERS[user]['followings'].append(followings)
+                else:
+                    USERS[user]['followings'] = [followings]
+
 if __name__ == "__main__":
 
     get_users_vector()
 
     get_users_hashmens()
+
+    get_users_followings()
 
     export_to_json()
     
