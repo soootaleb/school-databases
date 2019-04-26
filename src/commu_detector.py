@@ -1,6 +1,6 @@
 import json,os
 
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+from constants import BASE_DIR
 
 with open(os.path.join(BASE_DIR, 'scoring_alpha.output.json'), 'r') as input:
     USERS = json.loads(input.read())
