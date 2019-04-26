@@ -1,22 +1,22 @@
 import os, json
 
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-PATH = os.path.join(os.getcwd(), "data", "twitter")
+from constants import BASE_DIR, DATA_DIR
+
 USERS = dict()
 
 def get_users_vector():
-    for root, directory, files in os.walk(PATH):
+    for root, directory, files in os.walk(DATA_DIR):
         for current_file in filter(lambda f: f[-7:] == 'egofeat', files):
             actual = current_file.split('.')
             user_id = actual[0]
-            with open(os.path.join(PATH, current_file), 'r') as feats:
+            with open(os.path.join(DATA_DIR, current_file), 'r') as feats:
                 split = feats.read().split(' ')
                 USERS[user_id] = list(map(lambda x: True if x == '1' else False, split))
 
 def get_users_hashmens():
     for user_id, links in USERS.items():
 
-        with open(os.path.join(PATH, user_id + '.featnames'), 'r') as feats:
+        with open(os.path.join(DATA_DIR, user_id + '.featnames'), 'r') as feats:
             content = filter(lambda x: len(x) > 0, feats.read().split(os.linesep))
             vector = {
                 '#': [],
