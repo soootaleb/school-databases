@@ -41,7 +41,7 @@ def get_users_hashmens():
 def export_to_json():
     js = json.dumps(USERS)
 
-    with open(os.path.join(BASE_DIR, 'output.json'), 'w') as f:
+    with open(os.path.join(BASE_DIR, 'parser.output.json'), 'w') as f:
         f.write(js)
 
 def get_users_followings():
