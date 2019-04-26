@@ -1,0 +1,13 @@
+CREATE DATABASE twitter if not exist;
+use twitter;
+
+CREATE OR REPLACE TABLE edge ( user_from INT (10) NOT NULL, user_to  INT NOT NULL);
+
+LOAD DATA LOCAL INFILE '/home/twitter_combined_part1.csv' INTO TABLE edge FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n';
+LOAD DATA LOCAL INFILE '/home/twitter_combined_part2.csv' INTO TABLE edge FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n';
+LOAD DATA LOCAL INFILE '/home/twitter_combined_part3.csv' INTO TABLE edge FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n';
+
+SELECT user_from ,count(user_to )
+FROM edge
+GROUP BY user_from;
+
