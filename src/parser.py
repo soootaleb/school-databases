@@ -13,11 +13,7 @@ def get_users_vector():
                 split = feats.read().split(' ')
                 USERS[user_id] = list(map(lambda x: True if x == '1' else False, split))
 
-if __name__ == "__main__":
-
-
-    get_users_vector()
-
+def get_users_hashmens():
     for user_id, links in USERS.items():
 
         with open(os.path.join(PATH, user_id + '.featnames'), 'r') as feats:
@@ -42,7 +38,17 @@ if __name__ == "__main__":
             USERS[user_id]['#'] = list(filter(lambda x: x, [x and y for x, y in zip(hash_bool_list, vector['#'])]))
             USERS[user_id]['@'] = list(filter(lambda x: x, [x and y for x, y in zip(mentions_bool_list, vector['@'])]))
 
+def export_to_json():
     js = json.dumps(USERS)
 
     with open(os.path.join(BASE_DIR, 'output.json'), 'w') as f:
         f.write(js)
+
+if __name__ == "__main__":
+
+    get_users_vector()
+
+    get_users_hashmens()
+
+    export_to_json()
+    
