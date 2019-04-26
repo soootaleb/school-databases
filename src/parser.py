@@ -16,7 +16,7 @@ def get_users_vector():
 def get_users_hashmens():
     for user_id, links in USERS.items():
 
-        with open(os.path.join(PATH, user_id + '.featnames'), 'r') as feats:
+        with open(os.path.join(PATH, user_id + '.featnames'), 'r',encoding="utf8") as feats:
             content = filter(lambda x: len(x) > 0, feats.read().split(os.linesep))
             vector = {
                 '#': [],
@@ -46,7 +46,7 @@ def export_to_json():
 
 def get_users_followings():
     with open(os.path.join(BASE_DIR, 'data', 'twitter_combined.txt'), 'r') as f:
-        lines = f.read().split(os.linesep)
+        lines = f.read().split("\n")
 
         for line in filter(len, lines):
 

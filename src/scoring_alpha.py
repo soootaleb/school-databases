@@ -1,6 +1,6 @@
 import json, os
 
-from parser import BASE_DIR
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 with open(os.path.join(BASE_DIR, 'parser.output.json'), 'r') as output:
     USERS = json.loads(output.read())
