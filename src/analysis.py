@@ -13,7 +13,14 @@ def same_circle(left, right):
             users = circle.split('\t')[1:]
             if right in users:
                 return True
-        return False
+    
+    with open(os.path.join(DATA_DIR, right + '.circles'), 'r', encoding='utf8') as circles:
+        for circle in filter(len, circles.read().split('\n')):
+            users = circle.split('\t')[1:]
+            if left in users:
+                return True
+        
+    return False
 
 
 if __name__ == "__main__":
