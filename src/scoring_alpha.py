@@ -29,8 +29,11 @@ def score():
 
     for left in USERS.keys():
 
+        keys_list = list(USERS.keys())
+        interesting_keys = keys_list[keys_list.index(left) + 1:]
+        
         # Filtering to skip the current user
-        for right in filter(lambda x: x != left, USERS.keys()):
+        for right in filter(lambda x: x != left, interesting_keys):
 
             MAP[left + '-' + right] = {
                 '#': len(set(USERS[left]['#']) & set(USERS[right]['#'])),
