@@ -6,7 +6,7 @@ from constants import BASE_DIR, EVAL_COMMU_DETECTOR_MESSAGE
 with open(os.path.join(BASE_DIR, 'scoring_alpha.output.json'), 'r') as input:
     USERS = json.loads(input.read())
 
-followsThreshold = 75
+followsThreshold = 40
 #hashtagThreshold = 2
 #mentionThreshold = 2
 community = []
@@ -27,6 +27,6 @@ if __name__ == "__main__":
     counter = 0
     for com in community:
         left, right = com.split('-')
-        counter = counter + 1 if same_circle(left, right) else 0
+        counter = counter + 1 if same_circle(left, right) else counter
 
     print(EVAL_COMMU_DETECTOR_MESSAGE.format(len(community), counter))
