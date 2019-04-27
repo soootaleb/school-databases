@@ -12,8 +12,11 @@ mentionThreshold = 7
 community = []
 
 def detect():
+    user= set()
     for link in USERS:
-      
+        usa, usb = link.split('-')
+        user.add(usa)
+        user.add(usb)
         if USERS[link]["followings"] > followsThreshold:
         
             community.append(link)
@@ -25,7 +28,7 @@ def detect():
 
     print ("Community : ", community)
     print ("Size of the community : ",len(community))
-
+    print("out of ", len(user), "with in total", len(USERS))
 if __name__ == "__main__":
     detect()
 
