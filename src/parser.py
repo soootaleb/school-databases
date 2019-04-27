@@ -4,6 +4,14 @@ from constants import BASE_DIR, DATA_DIR
 
 USERS = dict()
 
+CHARS_TO_REMOVE = ['.', ',', '!', ':']
+
+def remove_userless_chars(string):
+    strr = ''
+    for c in CHARS_TO_REMOVE:
+        strr = string.replace(c, '')
+    return strr
+
 def get_users_vector():
     for root, directory, files in os.walk(DATA_DIR):
         for current_file in filter(lambda f: f[-7:] == 'egofeat', files):
@@ -37,6 +45,9 @@ def get_users_hashmens():
 
             USERS[user_id]['#'] = list(filter(lambda x: x, [x and y for x, y in zip(hash_bool_list, vector['#'])]))
             USERS[user_id]['@'] = list(filter(lambda x: x, [x and y for x, y in zip(mentions_bool_list, vector['@'])]))
+
+            USERS[user_id]['#'] = list(set(map(remove_userless_chars, USERS[user_id]['#'])))
+            USERS[user_id]['@'] = list(set(map(remove_userless_chars, USERS[user_id]['@'])))
 
 def export_to_json():
     js = json.dumps(USERS)
