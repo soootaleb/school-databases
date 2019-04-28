@@ -22,14 +22,7 @@ def same_circle(left, right):
         
     return False
 
-def same_circle_one(id):
-    with open(os.path.join(DATA_DIR, id + '.circles'), 'r', encoding='utf8') as circles:
-        for circle in filter(len,circles.read().split('\n')):
-            users = circle.split('\t')[1:]
-            if id in users:
-                return True
-    return False
-    
+
 if __name__ == "__main__":
 
     same_circle('532617990', '202674661') # True
