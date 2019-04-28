@@ -41,12 +41,12 @@ def detect_complex_commu():
             left, right = link.split('-')
             for user in USERS:
                 currleft, currright = user.split('-')
-                if ((currleft == left) | (currleft == right) | (currright == left) | (currright == right)) and (USERS[user]["followings"] > followsThreshold):
-                    for commu in communities:
-                        if currleft not in community:
-                            community.add(currleft)
-                        if currright not in community:
-                            community.add(currright)
+                for commu in communities:
+                    if ((currleft == left) | (currleft == right) | (currright == left) | (currright == right)) and (USERS[user]["followings"] > followsThreshold):
+                        if currleft not in commu:
+                            commu.add(currleft)
+                        if currright not in commu:
+                            commu.add(currright)
             if community not in communities:
                 communities.append(community)
     for commu in communities:
