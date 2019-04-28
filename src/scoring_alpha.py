@@ -55,6 +55,3 @@ if __name__ == "__main__":
     score()
 
     export_to_json()
-    
-
-            
