@@ -44,7 +44,7 @@ if __name__ == "__main__":
     detect()
 
 '''
-THIS FUNCTION IS NO LONGER USED DUE TO BAD RESULTS
+#THIS FUNCTION IS NO LONGER USED DUE TO BAD RESULTS
 
 # Detects a community by comparing all the users between them 
 def detect_complex_commu():
@@ -74,5 +74,3 @@ if __name__ == "__main__":
     detect_complex_commu()
     
 '''    
-    
-    
