@@ -3,7 +3,7 @@ import os, json
 from constants import BASE_DIR, DATA_DIR
 
 USERS = dict()
-
+CIRCLES = set()
 CHARS_TO_REMOVE = ['.', ',', '!', ':']
 
 def remove_userless_chars(string):
@@ -20,6 +20,17 @@ def get_users_vector():
             with open(os.path.join(DATA_DIR, current_file), 'r') as feats:
                 split = feats.read().split(' ')
                 USERS[user_id] = list(map(lambda x: True if x == '1' else False, split))
+        for current_file in filter(lambda f: f[-7:] == 'circles', files):
+            actual = current_file.split('.')
+            user_id = actual[0]
+            with open(os.path.join(DATA_DIR, current_file), 'r') as circles:
+                for circle in circles:
+                    split = circle.split('\t')
+                    split[0] = user_id #first is circle number in file, whereas it does not contain user_id so we replace it here
+                    split[-1] = split[-1][:-1]
+                    
+                    circ = frozenset(split)
+                    CIRCLES.add(circ)
 
 def get_users_hashmens():
     for user_id, links in USERS.items():
@@ -50,10 +61,13 @@ def get_users_hashmens():
             USERS[user_id]['@'] = list(set(map(remove_userless_chars, USERS[user_id]['@'])))
 
 def export_to_json():
-    js = json.dumps(USERS)
-
+    users = json.dumps(USERS)
     with open(os.path.join(BASE_DIR, 'parser.output.json'), 'w') as f:
-        f.write(js)
+        f.write(users)
+
+    circles = json.dumps([ list(x) for x in list (CIRCLES) ] )
+    with open(os.path.join(BASE_DIR, 'circles.json'), 'w') as f:
+        f.write(circles)
 
 def get_users_followings():
     with open(os.path.join(BASE_DIR, 'data', 'twitter_combined.txt'), 'r') as f:
@@ -76,6 +90,6 @@ if __name__ == "__main__":
     get_users_hashmens()
 
     get_users_followings()
-
+    
     export_to_json()
     
