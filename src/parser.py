@@ -34,12 +34,13 @@ def get_users_vector():
                     CIRCLES.add(circ)
     endfun = time.time() 
     print ("Time to get users vector : ", endfun-startfun," s")
+
 def get_users_hashmens():
     startfun = time.time() 
     for user_id, links in USERS.items():
 
         with open(os.path.join(DATA_DIR, user_id + '.featnames'), 'r', encoding = 'utf8') as feats:
-            content = filter(lambda x: len(x) > 0, feats.read().split(os.linesep))
+            content = filter(lambda x: len(x) > 0, feats.read().split("\n"))
             vector = {
                 '#': [],
                 '@': []
@@ -56,7 +57,6 @@ def get_users_hashmens():
                 '#': [],
                 '@': []
             }
-
             USERS[user_id]['#'] = list(filter(lambda x: x, [x and y for x, y in zip(hash_bool_list, vector['#'])]))
             USERS[user_id]['@'] = list(filter(lambda x: x, [x and y for x, y in zip(mentions_bool_list, vector['@'])]))
 

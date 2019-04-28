@@ -23,5 +23,5 @@ EVAL_COMMU_DETECTOR2_MESSAGE = """
         - {} mean accuracy of being in that community (in our community)
         - {} mean accuracy of being in that community (of total community)
 
-        computation time : {} s 
+        computation time : detection {} s, comparison {} s 
 """

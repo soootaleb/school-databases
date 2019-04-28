@@ -7,8 +7,8 @@ with open(os.path.join(BASE_DIR, 'scoring_alpha.output.json'), 'r') as input:
     USERS = json.loads(input.read())
 
 followsThreshold = 80
-hashtagThreshold = 15
-mentionThreshold = 7
+hashtagThreshold = 10
+mentionThreshold = 15
 
 
 def detect():
@@ -20,7 +20,6 @@ def detect():
         user.add(usa)
         user.add(usb)
         if USERS[link]["followings"] > followsThreshold:
-        
             community.append(link)
         elif USERS[link]["#"] > hashtagThreshold:
             community.append(link)
@@ -36,17 +35,19 @@ def detect():
         left, right = com.split('-')
         counter = counter + 1 if same_circle(left, right) else counter
 
-    print(EVAL_COMMU_DETECTOR_MESSAGE.format(len(community), counter))
+    output = EVAL_COMMU_DETECTOR_MESSAGE.format(len(community), counter)
+    print(output)
     endfun = time.time()
     print ("Time to compute a community detection : ", endfun-startfun," s" )
-
+    return output
 
 # Detects a community by comparing all the users between them 
 def detect_complex_commu():
     start_detection = time.time()
     communities = []
     for link in USERS: 
-        if USERS[link]["followings"] > followsThreshold:
+        print(USERS[link])
+        if USERS[link]["followings"] > followsThreshold or USERS[link]["#"] > hashtagThreshold or USERS[link]["@"] > mentionThreshold :
             community = []
             left, right = link.split('-')
             for user in USERS:
@@ -69,22 +70,28 @@ def detect_complex_commu():
     truth = [res[1] for res in results]   
 
     mean = [sum(obtained)/len(results), sum(truth)/len(results)] #Our vs Our, Our vs Truth
-    med = [obtained[int(len(obtained)/2)], truth[int(len(truth)/2)]]
     best = [max(obtained), max( truth )]
     worse = [min(obtained), min( truth)]
+
     end_compare = time.time()
-    output = EVAL_COMMU_DETECTOR2_MESSAGE.format(followsThreshold,mentionThreshold,hashtagThreshold, len(communities), len(results), best[0], best[1], worse[0],  worse[1], mean[0], mean[1], med[0], med[1], (end_compare-start_detection))
+    detection = end_detection-start_detection
+    comparison = end_compare-end_detection
+
+    output = EVAL_COMMU_DETECTOR2_MESSAGE.format(followsThreshold, hashtagThreshold, mentionThreshold, len(communities), len(results), best[0], best[1], worse[0],  worse[1], mean[0], mean[1], detection, comparison)
     print(output)
-    print("complex community computed in : ", end_detection-start_detection," s" )
-    print("values comparatives computed in : ", end_compare-end_detection," s" )
+
+    print("complex community computed in : ", detection," s" )
+    print("values comparatives computed in : ", comparison," s" )
     return output
     
 if __name__ == "__main__":
     print("user couples in same circles")
-    detect()
+    couples = detect()
     print("\ncommunities")
     name = "results_tresh_"+str(followsThreshold) +"_"+ str(hashtagThreshold) + "_"+str(mentionThreshold)+".txt"
+    communities = detect_complex_commu()
     with open(os.path.join(BASE_DIR, name) , 'w') as f:
-        f.write(detect_complex_commu())
+        f.write(couples)
+        f.write(communities)
 
     
