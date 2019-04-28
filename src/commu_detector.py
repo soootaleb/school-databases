@@ -102,8 +102,8 @@ if __name__ == "__main__":
                     print("user couples in same circles")
                     couples = detect(follow, hashtag, mention)
                     print("\ncommunities")
-                    name = "results_tresh_"+str(follows) +"_"+ str(hashtag) + "_"+str(mention)+".txt"
-                    communities = detect_complex_commu(follows, hashtag, mention)
+                    name = "results_tresh_"+str(follow) +"_"+ str(hashtag) + "_"+str(mention)+".txt"
+                    communities = detect_complex_commu(follow, hashtag, mention)
                     with open(os.path.join(BASE_DIR, name) , 'w') as f:
                         f.write(couples)
                         f.write(communities)
