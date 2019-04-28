@@ -1,4 +1,4 @@
-import os, json
+import os, json, time
 
 from constants import BASE_DIR, DATA_DIR
 
@@ -13,6 +13,7 @@ def remove_userless_chars(string):
     return strr
 
 def get_users_vector():
+    startfun = time.time()
     for root, directory, files in os.walk(DATA_DIR):
         for current_file in filter(lambda f: f[-7:] == 'egofeat', files):
             actual = current_file.split('.')
@@ -31,8 +32,11 @@ def get_users_vector():
                     
                     circ = frozenset(split)
                     CIRCLES.add(circ)
+    endfun = time.time()
+    print ("Time to get users vector : ", endfun-startfun," s")
 
 def get_users_hashmens():
+    startfun = time.time()
     for user_id, links in USERS.items():
 
         with open(os.path.join(DATA_DIR, user_id + '.featnames'), 'r', encoding = 'utf8') as feats:
@@ -59,8 +63,11 @@ def get_users_hashmens():
 
             USERS[user_id]['#'] = list(set(map(remove_userless_chars, USERS[user_id]['#'])))
             USERS[user_id]['@'] = list(set(map(remove_userless_chars, USERS[user_id]['@'])))
+    endfun = time.time()
+    print ("Time to get users hashtags and mentions : ",endfun-startfun," s")
 
 def export_to_json():
+    print("Exporting parsing to json...")
     users = json.dumps(USERS)
     with open(os.path.join(BASE_DIR, 'parser.output.json'), 'w') as f:
         f.write(users)
@@ -70,6 +77,7 @@ def export_to_json():
         f.write(circles)
 
 def get_users_followings():
+    startfun = time.time()
     with open(os.path.join(BASE_DIR, 'data', 'twitter_combined.txt'), 'r') as f:
         lines = f.read().split("\n")
 
@@ -82,8 +90,12 @@ def get_users_followings():
                     USERS[user]['followings'].append(followings)
                 else:
                     USERS[user]['followings'] = [followings]
+    endfun = time.time()
+    print("Time to get users followings : ", endfun-startfun," s")
 
 if __name__ == "__main__":
+
+    startmain = time.time()
 
     get_users_vector()
 
@@ -93,3 +105,5 @@ if __name__ == "__main__":
     
     export_to_json()
     
+    endmain = time.time()
+    print ("Time spent to parse all users : ", endmain - startmain," s")

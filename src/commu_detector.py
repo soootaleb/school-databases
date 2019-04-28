@@ -1,4 +1,4 @@
-import json,os
+import json,os, time
 
 from analysis import same_circle,same_circle_one
 from constants import BASE_DIR, EVAL_COMMU_DETECTOR_MESSAGE,EVAL_COMMU_DETECTOR2_MESSAGE
@@ -12,6 +12,7 @@ mentionThreshold = 7
 
 
 def detect():
+    startfun = time.time()
     community = []
     user= set()
     for link in USERS:
@@ -36,6 +37,8 @@ def detect():
         counter = counter + 1 if same_circle(left, right) else counter
 
     print(EVAL_COMMU_DETECTOR_MESSAGE.format(len(community), counter))
+    endfun = time.time()
+    print ("Time to compute a community detection : ", endfun-startfun," s" )
 
 if __name__ == "__main__":
     detect()
