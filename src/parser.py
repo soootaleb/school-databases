@@ -27,8 +27,7 @@ def get_users_vector():
                 for circle in circles:
                     split = circle.split('\t')
                     split[0] = user_id #first is circle number in file, whereas it does not contain user_id so we replace it here
-                    split[-1] = split[-1][:-1]
-                    
+                    split[-1] = split[-1][:-1] #DELETE \n 
                     circ = frozenset(split)
                     CIRCLES.add(circ)
 
