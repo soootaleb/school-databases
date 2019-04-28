@@ -28,7 +28,7 @@ def detect():
 
     print ("Community : ", community)
     print ("Size of the community : ",len(community))
-    print("out of ", len(user), "with in total", len(USERS))
+    print("out of ", len(user), "with in total", len(USERS), "couples of user")
 if __name__ == "__main__":
     detect()
 
