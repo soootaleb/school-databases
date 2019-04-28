@@ -48,7 +48,7 @@ def detect_complex_commu(follows, hashtags, mentions):
 
     followsThreshold = follows
     hashtagThreshold = hashtags
-    mentionThreshold = mentionss
+    mentionThreshold = mentions
 
     communities = []
     for link in USERS: 
