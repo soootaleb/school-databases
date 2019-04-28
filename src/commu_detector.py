@@ -32,9 +32,33 @@ def detect():
 if __name__ == "__main__":
     detect()
 
+# Detects a community by comparing all the users between them 
+def detect_complex_commu():
+    communities = []
+    for link in USERS: 
+        if USERS[link]["followings"] > followsThreshold:
+            community = []
+            left, right = link.split('-')
+            for user in USERS:
+                currleft, currright = user.split('-')
+                if ((currleft == left) | (currleft == right) | (currright == left) | (currright == right)) and (USERS[user]["followings"] > followsThreshold):
+                    if currleft not in community:
+                        community.append(currleft)
+                    if currright not in community:
+                        community.append(currright)
+            if community not in communities:
+                communities.append(community)
+    for commu in communities:
+        print(commu)
+
+if __name__ == "__main__":
+    detect_complex_commu()
+    
+    '''
     counter = 0
     for com in community:
         left, right = com.split('-')
         counter = counter + 1 if same_circle(left, right) else counter
 
     print(EVAL_COMMU_DETECTOR_MESSAGE.format(len(community), counter))
+    '''
