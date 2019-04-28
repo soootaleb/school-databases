@@ -10,6 +10,10 @@ EVAL_COMMU_DETECTOR_MESSAGE = """
 """
 EVAL_COMMU_DETECTOR2_MESSAGE = """
     Function "detect_complex":\n
-        - {} couples considered in same circle,
-        - {} couples actually in same circles
+        - {} communities detected,
+        - {} communities actually exist
+
+        - {} mean of difference between detected communities
+        - {} accuracy
+
 """

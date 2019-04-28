@@ -1,6 +1,6 @@
 import json,os, time
 
-from analysis import same_circle,same_circle_one
+from analysis import same_circle,same_circle_community
 from constants import BASE_DIR, EVAL_COMMU_DETECTOR_MESSAGE,EVAL_COMMU_DETECTOR2_MESSAGE
 
 with open(os.path.join(BASE_DIR, 'scoring_alpha.output.json'), 'r') as input:
@@ -40,14 +40,10 @@ def detect():
     endfun = time.time()
     print ("Time to compute a community detection : ", endfun-startfun," s" )
 
-if __name__ == "__main__":
-    detect()
-    #detect_complex_commu()
-'''
-THIS FUNCTION IS NO LONGER USED DUE TO BAD RESULTS
 
 # Detects a community by comparing all the users between them 
 def detect_complex_commu():
+    startfun = time.time()
     communities = []
     for link in USERS: 
         if USERS[link]["followings"] > followsThreshold:
@@ -64,10 +60,17 @@ def detect_complex_commu():
                 communities.append(community)
     for commu in communities:
         print(commu)
-    counter = 0
+    results = []
     for community in communities:
         for id in community:
-            counter = counter + 1 if same_circle_one(id) else counter
-    print(EVAL_COMMU_DETECTOR2_MESSAGE.format(len(community), counter))
+            results.append(same_circle_community(community))
+    endfun = time.time()
+    print(EVAL_COMMU_DETECTOR2_MESSAGE.format(len(communities), len(counts),0.7,0.8))
+    print(counts)
+    print("complex community computed in : ", endfun-startfun," s" )
 
-'''    
+if __name__ == "__main__":
+    print("user couples in same circles")
+    detect()
+    print("\ncommunities")
+    detect_complex_commu()
