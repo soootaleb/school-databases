@@ -6,12 +6,13 @@ from constants import BASE_DIR, EVAL_COMMU_DETECTOR_MESSAGE, EVAL_COMMU_DETECTOR
 with open(os.path.join(BASE_DIR, 'scoring_alpha.output.json'), 'r') as input:
     USERS = json.loads(input.read())
 
-followsThreshold = 80
-hashtagThreshold = 10
-mentionThreshold = 15
 
 
-def detect():
+def detect(ft, ht, mt):
+    followsThreshold = ft
+    hashtagThreshold = ht
+    mentionThreshold = mt
+
     startfun = time.time()
     community = []
     user= set()
@@ -42,11 +43,15 @@ def detect():
     return output
 
 # Detects a community by comparing all the users between them 
-def detect_complex_commu():
+def detect_complex_commu(follows, hashtags, mentions):
     start_detection = time.time()
+
+    followsThreshold = follows
+    hashtagThreshold = hashtags
+    mentionThreshold = mentionss
+
     communities = []
     for link in USERS: 
-        print(USERS[link])
         if USERS[link]["followings"] > followsThreshold or USERS[link]["#"] > hashtagThreshold or USERS[link]["@"] > mentionThreshold :
             community = []
             left, right = link.split('-')
@@ -85,13 +90,34 @@ def detect_complex_commu():
     return output
     
 if __name__ == "__main__":
-    print("user couples in same circles")
-    couples = detect()
-    print("\ncommunities")
-    name = "results_tresh_"+str(followsThreshold) +"_"+ str(hashtagThreshold) + "_"+str(mentionThreshold)+".txt"
-    communities = detect_complex_commu()
-    with open(os.path.join(BASE_DIR, name) , 'w') as f:
-        f.write(couples)
-        f.write(communities)
+    full_test = False
 
-    
+    if full_test:
+        follows = [10, 20, 30, 40, 50, 60, 70, 80]
+        hashtags = [1,2,3,4,5,10]
+        mentions = [1,2,3,4,5,10]
+        for follow in follows:
+            for hashtag in hashtags:
+                for mention in mentions:
+                    print("user couples in same circles")
+                    couples = detect(follow, hashtag, mention)
+                    print("\ncommunities")
+                    name = "results_tresh_"+str(follows) +"_"+ str(hashtag) + "_"+str(mention)+".txt"
+                    communities = detect_complex_commu(follows, hashtag, mention)
+                    with open(os.path.join(BASE_DIR, name) , 'w') as f:
+                        f.write(couples)
+                        f.write(communities)
+    else:
+        followsThreshold = 80
+        hashtagThreshold = 10
+        mentionThreshold = 15
+        print("user couples in same circles")
+        couples = detect(followsThreshold, hashtagThreshold, mentionThreshold)
+        print("\ncommunities")
+        name = "results_tresh_"+str(followsThreshold) +"_"+ str(hashtagThreshold) + "_"+str(mentionThreshold)+".txt"
+        communities = detect_complex_commu(followsThreshold, hashtagThreshold, mentionThreshold)
+        with open(os.path.join(BASE_DIR, name) , 'w') as f:
+            f.write(couples)
+            f.write(communities)
+
+        
