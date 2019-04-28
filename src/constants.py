@@ -10,10 +10,18 @@ EVAL_COMMU_DETECTOR_MESSAGE = """
 """
 EVAL_COMMU_DETECTOR2_MESSAGE = """
     Function "detect_complex":\n
+        tresholds : followers {}, # : {}, @ : {}
         - {} communities detected,
         - {} communities actually exist
 
-        - {} mean of difference between detected communities
-        - {} accuracy
+        - {} best accuracy (in our community)
+        - {} best accuracy (in truth community)
+        
+        - {} worse accuracy (in our community)
+        - {} worse accuracy (in truth community)
 
+        - {} mean accuracy of being in that community (in our community)
+        - {} mean accuracy of being in that community (of total community)
+
+        computation time : {} s 
 """
