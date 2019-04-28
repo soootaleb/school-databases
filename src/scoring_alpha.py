@@ -1,4 +1,4 @@
-import json, os, time
+import json, os
 
 from constants import BASE_DIR
 
@@ -26,7 +26,7 @@ dim parameter can be
 - "followings"
 '''
 def score():
-    startfun = time.time()
+
     for left in USERS.keys():
 
         keys_list = list(USERS.keys())
@@ -40,11 +40,8 @@ def score():
                 '@': len(set(USERS[left]['@']) & set(USERS[right]['@'])),
                 'followings': len(set(USERS[left]['followings']) & set(USERS[right]['followings']))
             }
-    endfun = time.time()
-    print("Time to score all users for common features : ", endfun-startfun," s")
 
 def export_to_json():
-    print ("Exporting scoring to json...")
     js = json.dumps(MAP)
 
     with open(os.path.join(BASE_DIR, 'scoring_alpha.output.json'), 'w') as f:
