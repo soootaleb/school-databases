@@ -8,3 +8,8 @@ EVAL_COMMU_DETECTOR_MESSAGE = """
         - {} couples considered in same circle,
         - {} couples actually in same circles
 """
+EVAL_COMMU_DETECTOR2_MESSAGE = """
+    Function "detect_complex":\n
+        - {} couples considered in same circle,
+        - {} couples actually in same circles
+"""
