@@ -75,7 +75,7 @@ def detect_complex_commu(follows, hashtags, mentions):
     obtained = [res[0] for res in results]
     truth = [res[1] for res in results]   
 
-    mean = [sum(obtained)/len(results), sum(truth)/len(results)] #Our vs Our, Our vs Truth
+    mean = [sum(obtained)/len(results), sum(truth)/ max(len(results), len(obtained))] #Our vs Our, Our vs Truth
     best = [max(obtained), max( truth )]
     worse = [min(obtained), min( truth)]
 
