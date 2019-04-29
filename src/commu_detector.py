@@ -28,7 +28,7 @@ def detect(ft, ht, mt):
         elif USERS[link]["@"] > mentionThreshold:
             community.append(link)
 
-    print ("Community : ", community)
+    #print ("Community : ", community)
     print ("Size of the community : ",len(community))
     print("out of ", len(user), "with in total", len(USERS))
     counter = 0
@@ -69,8 +69,8 @@ def detect_complex_commu(follows, hashtags, mentions):
                 #list -> Fronzenset -> list
                 #  we sort it and delete doublons, and add only if it does not already exist in the set
                 communities.append(list(frozenset(community)))
-    for commu in communities:
-        print(commu)
+#    for commu in communities:
+#        print(commu)
     end_detection = time.time()
     results = []
     for community in communities:
@@ -94,18 +94,16 @@ def detect_complex_commu(follows, hashtags, mentions):
     return output
     
 if __name__ == "__main__":
-    full_test = False
+    full_test = True
 
     if full_test:
-        follows = [20, 30, 40, 50, 60, 70, 80]
-        hashtags = [1,2,3,4,5,10]
-        mentions = [1,2,3,4,5,10]
+        follows = [30, 40, 50, 60, 70, 80]
+        hashtags = [2,3,4,5,10]
+        mentions = [2,3,4,5,10]
         for follow in follows:
             for hashtag in hashtags:
                 for mention in mentions:
-                    print("user couples in same circles")
                     couples = detect(follow, hashtag, mention)
-                    print("\ncommunities")
                     name = "results_tresh_"+str(follow) +"_"+ str(hashtag) + "_"+str(mention)+".txt"
                     communities = detect_complex_commu(follow, hashtag, mention)
                     with open(os.path.join(BASE_DIR, name) , 'w') as f:

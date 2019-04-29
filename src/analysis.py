@@ -30,7 +30,7 @@ def same_circle_community(community):
                 users = circle.split('\t')[1:]
                 test = [x in users for x in community]
 
-                communities_values.append([sum(test) / len(community), sum(test) / len(users)])
+                communities_values.append([sum(test) / len(community), sum(test)- (sum(test) - len(test)) / len(users)])
 
     return max(communities_values)
     
