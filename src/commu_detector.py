@@ -55,22 +55,23 @@ def detect_complex_commu(follows, hashtags, mentions):
         if USERS[link]["followings"] > followsThreshold or USERS[link]["#"] > hashtagThreshold or USERS[link]["@"] > mentionThreshold :
             community = []
             left, right = link.split('-')
-            for user in USERS:
-                currleft, currright = user.split('-')
-                if ((currleft == left) | (currleft == right) | (currright == left) | (currright == right)) and ( (USERS[user]["followings"] > followsThreshold) or (USERS[user]["#"] > hashtagThreshold) or (USERS[user]["@"] > mentionThreshold) ):
+            for couple in USERS:
+                currleft, currright = couple.split('-')
+                if (currleft == left or currleft == right or currright == left or currright == right) and ( (USERS[couple]["followings"] > followsThreshold) or (USERS[couple]["#"] > hashtagThreshold) or (USERS[couple]["@"] > mentionThreshold) ):
                     if currleft not in community:
                         community.append(currleft)
                     if currright not in community:
                         community.append(currright)
-            if community not in communities:
-                communities.append(community)
+            if list(frozenset(community)) not in communities:
+                #list -> Fronzenset -> list
+                #  we sort it and delete doublons, and add only if it does not already exist in the set
+                communities.append(list(frozenset(community)))
     for commu in communities:
         print(commu)
     end_detection = time.time()
     results = []
     for community in communities:
-        for id in community:
-            results.append(same_circle_community(community))
+        results.append(same_circle_community(community))
     obtained = [res[0] for res in results]
     truth = [res[1] for res in results]   
 
@@ -93,7 +94,7 @@ if __name__ == "__main__":
     full_test = False
 
     if full_test:
-        follows = [10, 20, 30, 40, 50, 60, 70, 80]
+        follows = [20, 30, 40, 50, 60, 70, 80]
         hashtags = [1,2,3,4,5,10]
         mentions = [1,2,3,4,5,10]
         for follow in follows:
