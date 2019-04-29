@@ -57,11 +57,14 @@ def detect_complex_commu(follows, hashtags, mentions):
             left, right = link.split('-')
             for couple in USERS:
                 currleft, currright = couple.split('-')
-                if (currleft == left or currleft == right or currright == left or currright == right) and ( (USERS[couple]["followings"] > followsThreshold) or (USERS[couple]["#"] > hashtagThreshold) or (USERS[couple]["@"] > mentionThreshold) ):
-                    if currleft not in community:
-                        community.append(currleft)
-                    if currright not in community:
-                        community.append(currright)
+                
+                checked_treshold = (USERS[couple]["followings"] > followsThreshold) or (USERS[couple]["#"] > hashtagThreshold) or (USERS[couple]["@"] > mentionThreshold)       
+                if checked_treshold and (currleft == left or currleft == right or currright == left or currright == right)  :
+                #Doublons will be checked.
+                    community.append(currleft)
+                    community.append(currright)
+                    community.append(left)
+                    community.append(right)
             if list(frozenset(community)) not in communities:
                 #list -> Fronzenset -> list
                 #  we sort it and delete doublons, and add only if it does not already exist in the set
